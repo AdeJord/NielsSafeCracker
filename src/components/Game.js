@@ -41,7 +41,7 @@ const Game = (props) => {
             header='You have submitted code '
             content={code}
             footer="MAKE A NOTE OF THIS CODE!!!  Once the game starts, 
-            the only way to get back to this page is to enter the correct code"
+            the only way to get back to this page is to enter the correct code, Click to continue"
             onClick={modalCloseHandler}
             modalFooter="OK"
           />
