@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  overflow: hidden
 }
 
 .App-logo {
@@ -60,7 +61,12 @@
   width: 120px;
   height: 60px;
   background-color: rgb(216, 215, 215);
-  margin: 2px;
-  border-radius: 20px;
+  color: black;
+  text-align: center;
+  justify-content: center;
+  font-size: 60px;
+  /* box-shadow: 3px 3px 5px #888888; */
+  margin: 5px;
+  border-radius: 15px;
   padding-bottom: 60px;
   }

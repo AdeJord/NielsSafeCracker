@@ -11,7 +11,7 @@ const EnterCode = (props) => {
 
   return (
     <>
-      <p>Enter Code</p>
+      <h1>Enter Code</h1>
       <input 
       onChange={inputChangeHandler}
       style={{ height: '50px', width: '200px', fontSize: '40px', textAlign: 'center'}}

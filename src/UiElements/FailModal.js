@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     left: "24%",
     width: "50vw",
     height: "auto",
-    background: "#69b871",
+    background: "#702d38",
     zIndex: "1",
   },
   modalHeader: {

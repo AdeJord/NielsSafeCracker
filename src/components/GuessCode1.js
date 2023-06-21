@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import Modal from "../UiElements/Modal";
+import FailModal from "../UiElements/FailModal";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,86 +18,71 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const updateBox = () => {
-  
-}
-
 const NumPad = (props) => {
   const classes = useStyles();
-  var codeLength = props.charInCode;
-  var guessedCodeArray = [];
+  const codeLength = props.charInCode;
+  const [guessedCodeState, setGuessedCodeState] = useState(
+    Array(codeLength).fill("")
+  );
+  const [showModal, setShowModal] = useState(false);
+  const [showFailModal, setShowFailModal] = useState(false);
+  const restart = () => {
+    setGuessedCodeState(Array(codeLength).fill(''));
+  };
 
-  const [test, setTest] = useState('tit');
-  const [inputValue, setInputValue] = useState(props.numberClicked)
+  const modalCloseHandler = () => {
+    setShowModal(false);
+  };
 
-  const [guessedCodeState, setGuessedCodeState] = useState(guessedCodeArray);
-  const [guessedNumState, setGuessedNumState] = useState('');
-  var numberClicked = guessedNumState
-
-  // const handleNumberClick = (number) => {
-
-  //   if (guessedCodeArray.length <= codeLength){
-  //   // Handle the number click event
-  //   console.log(`Clicked number: ${number}`);
-  //   guessedCodeArray.push(number);
-  //   setGuessedNumState(guessedCodeArray)
-
-    
-  //   //why does this do what it does? Only log the number clicked?
-  //   // setTest(number)
-
-  //   //SET INNERTEXT OF BOX TO NUMBER?!?!!??!?!!?
-
-  //   console.log("guessedCodeArray :- " + guessedCodeArray);
-  //   console.log("guessedCodeState :- " + guessedCodeState);
-  //   console.log("number :- " + number);
-  //   console.log('END LOOP')
-  //   } else {console.log('DONE')}
-  // };
+  const failModalCloseHandler = () => {
+    setShowFailModal(false);
+    restart()
+    // setGuessedCodeState([]) // this bit empties the boxes but needs to reset the game! how do I do that?
+  };
 
   const handleNumberClick = (number) => {
-    if (guessedCodeArray.length < codeLength) {
+    var setCode = props.code;
+    var guessedCode = props.codeToNumber;
+    console.log(setCode);
+    console.log(guessedCode);
+
+    if (guessedCodeState.filter((val) => val === "").length > 0) {
+      // Handle the number click event
       console.log(`Clicked number: ${number}`);
-      const updatedCodeArray = [...guessedCodeArray, number]; // Create a new array with the updated values
-      guessedCodeArray = updatedCodeArray; // Update the reference of the local variable
-      setGuessedCodeState(updatedCodeArray); // Update the state with the new array
-      setGuessedNumState(updatedCodeArray.join('')); // Update the state with the joined string of numbers
-  
-      console.log("guessedCodeArray: " + guessedCodeArray);
-      console.log("guessedCodeState: " + guessedCodeState);
+      const updatedCodeState = [...guessedCodeState]; // Create a new array with the current state values
+      const emptyBoxIndex = updatedCodeState.findIndex((val) => val === "");
+      updatedCodeState[emptyBoxIndex] = number; // Update the clicked number in the corresponding empty box
+      setGuessedCodeState(updatedCodeState); // Update the state with the new array
+
+      console.log("guessedCodeState: " + updatedCodeState);
       console.log("number: " + number);
-      console.log('END LOOP');
-  
-      if (updatedCodeArray.length === codeLength) {
+      console.log("END LOOP");
+
+      if (updatedCodeState.filter((val) => val === "").length === 0) {
+        const stringCode = updatedCodeState.join("");
         // If all the boxes are filled, perform the necessary action
-        console.log('DONE');
+
+        if (setCode === stringCode) //Checks the codes match
+        {
+          // console.log('props.code ' + (props.code));
+          // console.log('GUESSED CODE (string)  ' + stringCode)
+          // console.log('SUCCESS!!!!!!!!!!!!!!!!!!!!!')
+          // console.log(`props.code ${props.code}`)
+          // console.log(`setCode ${setCode}`)
+          // console.log(`Guessed Code ${guessedCode}`) // Returns the SetCode (111) whereas I typed 123
+          setShowModal(true);
+          console.log("SUCCESS");
+        } else {
+          console.log("FAIL");
+          setShowFailModal(true);
+        }
       }
-    } else {
-      console.log('DONE');
     }
   };
 
-  // from ai **************But adjusted my me**************
-  //RETURNS AS MANY BOXES AS THERE ARE CHARACTERS IN THE CODE
-
-
-
-  const BoxContainer = (number) => {
+  const BoxContainer = () => {
     const renderBoxes = () => {
       const boxes = [];
-
-      // THE PROBLEM - It is rendering the boxes empty (As it should), BUT, when a button is clicked
-      // it is saving it into the guessed CodeArray and the guessedCodeState but not rendering it
-      // in the box.
-      // THE ANSWER? i think? - It needs to update the guessedCodeState/guessedCodeArray onClick of the button
-      // (which it does) AND ALSO update the box content (Which it does NOT).
-      // ie. When Button 1 is clicked, (it already updates the array and state),
-      // BUTS IT NEEDS TO TELL someone(WHO?) That it needs to rerender with the new the contents of the
-      // box with the number of the button that has just been pressed.
-      // ie. 1.
-
-      //INNERTEXT???
-      //Set Box to a blank string, then change the innertext when button is pressed?
 
       for (let i = 0; i < codeLength; i++) {
         boxes.push(
@@ -107,16 +94,28 @@ const NumPad = (props) => {
       return boxes;
     };
 
-    //*********is (codeLength) really required? */
     const boxes = renderBoxes(codeLength);
 
     return <div className="box-container">{boxes}</div>;
   };
-  // end from ai *********************************************
 
   return (
-    // as many boxes as there is numbers in the code
     <>
+      {showModal && (
+        <Modal
+          header="SUCCESS "
+          content="WELL DONE!!!"
+          footer="You did it!!"
+          onClick={modalCloseHandler}
+        />
+      )}
+      {showFailModal && (
+        <FailModal
+          header="INCORRECT "
+          content="Try Again"
+          onClick={failModalCloseHandler}
+        />
+      )}
       <BoxContainer />
       <div className={classes.root}>
         <Grid container spacing={1}>
@@ -236,7 +235,6 @@ const NumPad = (props) => {
           </Grid>
         </Grid>
       </div>
-      <p>SUBMIT</p>
     </>
   );
 };

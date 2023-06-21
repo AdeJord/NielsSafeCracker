@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import GuessCode1 from "./GuessCode1";
 import GuessCode from "./GuessCode";
 import Modal from "../UiElements/Modal";
 import "../App.css";
@@ -8,20 +9,24 @@ const Game = (props) => {
   const [code, setCode] = useState([]);
   const [input, setInput] = useState([]);
   const [inGame, setInGame] = useState(false);
+  const [codeLength, setCodeLength] = useState(code);
 
-  const [codeLength, setCodeLength] = useState(code)
+  const codeToNumber = code.toString();
 
   const SubmitCodeHandler = (e) => {
     setCode(input);
     setShowModal(true);
-  };
+    // convert final code array into a number then log
+    //maybe set the Play button to only work if number has been submitted/confirmed
 
+    console.log(code);
+    console.log(`Code set ${code}`);
+  };
 
   //NEED TO MAKE IT SO THE CODE ENTERED IS NOT ALL OF THE NUMBERS SEPERATELY
   const inputChangeHandler = (e) => {
     setInput(e.target.value);
-    code.push(e.target.value);
-    console.log(code);
+    setCode(e.target.value);
   };
 
   const modalCloseHandler = () => {
@@ -30,7 +35,10 @@ const Game = (props) => {
 
   const playGameHandler = () => {
     setInGame(true);
-    setCodeLength(code.length)
+    setCodeLength(code.length);
+
+    console.log(`Defined codeToNumber ${codeToNumber}`);
+    console.log(`Code set ${code}`);
   };
 
   if (inGame === false) {
@@ -38,12 +46,12 @@ const Game = (props) => {
       <>
         {showModal && (
           <Modal
-            header='You have submitted code '
+            background='gray'
+            header="You have submitted code "
             content={code}
             footer="MAKE A NOTE OF THIS CODE!!!  Once the game starts, 
             the only way to get back to this page is to enter the correct code, Click to continue"
             onClick={modalCloseHandler}
-            modalFooter="OK"
           />
         )}
 
@@ -72,8 +80,11 @@ const Game = (props) => {
     return (
       <>
         <h1>Crack The Code</h1>
-        <GuessCode 
-        charInCode={codeLength}/>
+        <GuessCode1
+          charInCode={codeLength}
+          code={code}
+          codeToNumber={codeToNumber}
+        />
       </>
     );
   }
