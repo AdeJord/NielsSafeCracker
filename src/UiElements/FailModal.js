@@ -4,34 +4,41 @@ import { makeStyles } from "@material-ui/styles";
 const useStyles = makeStyles({
 
   modalRoot: {
-    boxShadow: '5px 10px 35px 10px #7C7373',
-    borderRadius: "10px",
+    // boxShadow: '5px 15px 15px 10px #FF0000',
+    border: '6px solid black',
+    borderRadius: "20px",
     position: "fixed",
-    // padding: "10px",
-    top: "30%",
-    left: "24%",
-    width: "50vw",
+    top: "10%",
+    left: "12%",
+    width: "75vw",
     height: "auto",
-    background: "#702d38",
-    zIndex: "1",
+    background: "#FF0000",
   },
   modalHeader: {
+    borderRadius: "10px",
+    paddingTop: '50px',
     textAlign: "center",
-    fontSize: "large",
+    background: '#FF0000',
+    height: '30vh',
+    fontSize: "40px",
+    color: "black",
+    letterSpacing: "9px",
   },
   modalContent: {
-    borderRadius: "3px",
+    borderRadius: "10px",
     textAlign: "center",
-    fontSize: "30px",
-    background: "white",
-    // '@media (max-width: 768px)' : {
-    //   fontSize: "small",
-    // }
+    fontSize: "90px",
+    background: "#990000",
+    color: "#FFFFFF",
+    letterSpacing: "3px",
+    marginBottom: '100px'
   },
   modalFooter: {
-    paddingTop: "20px",
     textAlign: "center",
-    fontSize: "large",
+    fontSize: "50px",
+    color: "#2B2423",
+    letterSpacing: "2px",
+    padding: '30px'
   },
 });
 

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import Modal from "../UiElements/Modal";
+import SuccessModal from "../UiElements/SuccessModal";
 import FailModal from "../UiElements/FailModal";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,19 +24,27 @@ const NumPad = (props) => {
   const [guessedCodeState, setGuessedCodeState] = useState(
     Array(codeLength).fill("")
   );
-  const [showModal, setShowModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFailModal, setShowFailModal] = useState(false);
+
   const restart = () => {
-    setGuessedCodeState(Array(codeLength).fill(''));
+    setGuessedCodeState(Array(codeLength).fill(""));
   };
 
-  const modalCloseHandler = () => {
-    setShowModal(false);
+
+  //**********ISSUE HERE***************** */
+  const footerLeftClick = () => {
+    window.location.reload();
+  };
+
+  const footerRightClick = () => {
+    setShowSuccessModal(false);
+    restart();
   };
 
   const failModalCloseHandler = () => {
     setShowFailModal(false);
-    restart()
+    restart();
     // setGuessedCodeState([]) // this bit empties the boxes but needs to reset the game! how do I do that?
   };
 
@@ -62,15 +70,9 @@ const NumPad = (props) => {
         const stringCode = updatedCodeState.join("");
         // If all the boxes are filled, perform the necessary action
 
-        if (setCode === stringCode) //Checks the codes match
-        {
-          // console.log('props.code ' + (props.code));
-          // console.log('GUESSED CODE (string)  ' + stringCode)
-          // console.log('SUCCESS!!!!!!!!!!!!!!!!!!!!!')
-          // console.log(`props.code ${props.code}`)
-          // console.log(`setCode ${setCode}`)
-          // console.log(`Guessed Code ${guessedCode}`) // Returns the SetCode (111) whereas I typed 123
-          setShowModal(true);
+        if (setCode === stringCode) {
+          //Checks the codes match
+          setShowSuccessModal(true);
           console.log("SUCCESS");
         } else {
           console.log("FAIL");
@@ -101,18 +103,18 @@ const NumPad = (props) => {
 
   return (
     <>
-      {showModal && (
-        <Modal
-          header="SUCCESS "
-          content="WELL DONE!!!"
-          footer="You did it!!"
-          onClick={modalCloseHandler}
+      {showSuccessModal && (
+        <SuccessModal
+          header="CONGRATULATIONS"
+          content="YOU CRACKED THE CODE!"
+          footerLeftClick={footerLeftClick}
+          footerRightClick={footerRightClick}
         />
       )}
       {showFailModal && (
         <FailModal
-          header="INCORRECT "
-          content="Try Again"
+          header="WRONG CODE ENTERED"
+          footer="Try Again!!"
           onClick={failModalCloseHandler}
         />
       )}
@@ -210,11 +212,12 @@ const NumPad = (props) => {
             </Button>
           </Grid>
           <Grid item xs={4}>
-            <Button
+            {/* <Button
+              color="primary"
               variant="contained"
               className={classes.button}
               disabled
-            ></Button>
+            ></Button> */}
           </Grid>
           <Grid item xs={4}>
             <Button
@@ -227,11 +230,11 @@ const NumPad = (props) => {
             </Button>
           </Grid>
           <Grid item xs={4}>
-            <Button
-              variant="contained"
+            {/* <Button
+              color="primary"
               className={classes.button}
               disabled
-            ></Button>
+            ></Button> */}
           </Grid>
         </Grid>
       </div>

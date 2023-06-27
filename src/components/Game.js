@@ -36,9 +36,7 @@ const Game = (props) => {
   const playGameHandler = () => {
     setInGame(true);
     setCodeLength(code.length);
-
-    console.log(`Defined codeToNumber ${codeToNumber}`);
-    console.log(`Code set ${code}`);
+    // console.log(`Code set ${code}`);
   };
 
   if (inGame === false) {
