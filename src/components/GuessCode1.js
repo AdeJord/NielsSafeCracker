@@ -32,7 +32,6 @@ const NumPad = (props) => {
   };
 
 
-  //**********ISSUE HERE***************** */
   const footerLeftClick = () => {
     window.location.reload();
   };
@@ -45,10 +44,12 @@ const NumPad = (props) => {
   const failModalCloseHandler = () => {
     setShowFailModal(false);
     restart();
-    // setGuessedCodeState([]) // this bit empties the boxes but needs to reset the game! how do I do that?
   };
+  // need to understand the below line
+  const delay = ms => new Promise(res => setTimeout(res, ms));
 
-  const handleNumberClick = (number) => {
+  const handleNumberClick = async (number) => {
+
     var setCode = props.code;
     var guessedCode = props.codeToNumber;
     console.log(setCode);
@@ -61,7 +62,7 @@ const NumPad = (props) => {
       const emptyBoxIndex = updatedCodeState.findIndex((val) => val === "");
       updatedCodeState[emptyBoxIndex] = number; // Update the clicked number in the corresponding empty box
       setGuessedCodeState(updatedCodeState); // Update the state with the new array
-
+      await delay(1500);
       console.log("guessedCodeState: " + updatedCodeState);
       console.log("number: " + number);
       console.log("END LOOP");
@@ -69,7 +70,8 @@ const NumPad = (props) => {
       if (updatedCodeState.filter((val) => val === "").length === 0) {
         const stringCode = updatedCodeState.join("");
         // If all the boxes are filled, perform the necessary action
-
+// setTimeout(3000)
+console.log('here?')
         if (setCode === stringCode) {
           //Checks the codes match
           setShowSuccessModal(true);
@@ -113,8 +115,6 @@ const NumPad = (props) => {
       )}
       {showFailModal && (
         <FailModal
-          header="WRONG CODE ENTERED"
-          footer="Try Again!!"
           onClick={failModalCloseHandler}
         />
       )}

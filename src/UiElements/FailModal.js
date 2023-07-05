@@ -2,9 +2,7 @@ import ReactDOM from "react-dom";
 import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles({
-
   modalRoot: {
-    // boxShadow: '5px 15px 15px 10px #FF0000',
     border: '6px solid black',
     borderRadius: "20px",
     position: "fixed",
@@ -12,17 +10,19 @@ const useStyles = makeStyles({
     left: "12%",
     width: "75vw",
     height: "auto",
-    background: "#FF0000",
+    background: "#222222",
+    boxShadow: '0px 0px 20px 10px #FF0000',
   },
   modalHeader: {
     borderRadius: "10px",
     paddingTop: '50px',
     textAlign: "center",
-    background: '#FF0000',
-    height: '30vh',
-    fontSize: "40px",
-    color: "black",
+    background: '#222222',
+    height: '40vh',
+    fontSize: "8vw",
+    color: "#FF0000",
     letterSpacing: "9px",
+    textShadow: ".7vw .2vh .5vh tomato",
   },
   modalContent: {
     borderRadius: "10px",
@@ -31,16 +31,19 @@ const useStyles = makeStyles({
     background: "#990000",
     color: "#FFFFFF",
     letterSpacing: "3px",
-    marginBottom: '100px'
+    marginBottom: '100px',
+    textShadow: "0px 0px 10px #FF0000",
   },
   modalFooter: {
     textAlign: "center",
-    fontSize: "50px",
+    fontSize: "30px",
     color: "#2B2423",
     letterSpacing: "2px",
-    padding: '30px'
+    padding: '30px',
+    textShadow: "1px 1px 3px  #FF0000",
   },
 });
+
 
 const Modal = (props) => {
   const classes = useStyles();
@@ -49,10 +52,10 @@ const Modal = (props) => {
     <div onClick={props.onClick}>
       <div className={classes.modalRoot}>
         <div className={classes.modalHeader}>
-          <h3>{props.header}</h3>
+          <h3>WRONG CODE ENTERED</h3>
         </div>
         <div className={classes.modalContent}>{props.content}</div>
-        <div className={classes.modalFooter}>{props.footer}
+        <div className={classes.modalFooter}>Try Again
         </div>
       </div>
     </div>
