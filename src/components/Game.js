@@ -11,25 +11,32 @@ const useStyles = makeStyles({
   },
   input: {
     height: "10vh",
-    width: "75vw",
+    width: "4em",
     fontSize: "4em",
     textAlign: "center",
     borderRadius: "5px",
     marginBottom: "20px",
+    borderRadius: "30px",
   },
   submitBtn: {
     height: "10vh",
     width: "55vw",
+    //TODO make this more responsive
     fontSize: "5vw",
     textAlign: "center",
     borderRadius: "30px",
+    background: 'gray',
+    color: 'white'
   },
   playBtn: {
+    background: 'gray',
+    color: 'white',
     height: "10vh",
     width: "55vw",
     fontSize: "5vw",
     textAlign: "center",
     borderRadius: "30px",
+    
   },
 });
 
@@ -49,18 +56,14 @@ const Game = (props) => {
   const SubmitCodeHandler = (e) => {
     setCode(input);
     setShowModal(true);
-    setSubmitted(true)
+    setSubmitted(true);
     // convert final code array into a number then log
     //maybe set the Play button to only work if number has been submitted/confirmed
     //Make sure the number entered is less than 6 or more than 0
 
     if (!submitted) {
-      console.log("Needs to be sumbitted 1st");
       return;
     }
-
-    console.log(code);
-    console.log(`Code set ${code}`);
   };
 
   //NEED TO MAKE IT SO THE CODE ENTERED IS NOT ALL OF THE NUMBERS SEPERATELY
@@ -91,14 +94,16 @@ const Game = (props) => {
           type="number"
         />
         <br />
-        <button
-          className={classes.submitBtn}
-          onClick={SubmitCodeHandler}
-          type="button"
-          // disabled={!submitted} // Disable the button if 'submitted' is false
-        >
-          SUBMIT CODE
-        </button>
+        {!submitted && (
+          <button
+            className={classes.submitBtn}
+            onClick={SubmitCodeHandler}
+            type="button"
+            // disabled={!submitted} // Disable the button if 'submitted' is false
+          >
+            SUBMIT CODE
+          </button>
+        )}
         <br />
         {submitted && (
           <button

@@ -47,37 +47,31 @@ const NumPad = (props) => {
   };
   // need to understand the below line
   const delay = ms => new Promise(res => setTimeout(res, ms));
+ // 
 
+ 
   const handleNumberClick = async (number) => {
 
     var setCode = props.code;
     var guessedCode = props.codeToNumber;
-    console.log(setCode);
-    console.log(guessedCode);
+
 
     if (guessedCodeState.filter((val) => val === "").length > 0) {
       // Handle the number click event
-      console.log(`Clicked number: ${number}`);
       const updatedCodeState = [...guessedCodeState]; // Create a new array with the current state values
       const emptyBoxIndex = updatedCodeState.findIndex((val) => val === "");
       updatedCodeState[emptyBoxIndex] = number; // Update the clicked number in the corresponding empty box
       setGuessedCodeState(updatedCodeState); // Update the state with the new array
       await delay(1500);
-      console.log("guessedCodeState: " + updatedCodeState);
-      console.log("number: " + number);
-      console.log("END LOOP");
+
 
       if (updatedCodeState.filter((val) => val === "").length === 0) {
         const stringCode = updatedCodeState.join("");
         // If all the boxes are filled, perform the necessary action
-// setTimeout(3000)
-console.log('here?')
         if (setCode === stringCode) {
           //Checks the codes match
           setShowSuccessModal(true);
-          console.log("SUCCESS");
         } else {
-          console.log("FAIL");
           setShowFailModal(true);
         }
       }
