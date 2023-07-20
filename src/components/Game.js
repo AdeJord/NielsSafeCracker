@@ -22,7 +22,7 @@ const useStyles = makeStyles({
     height: "10vh",
     width: "55vw",
     //TODO make this more responsive
-    fontSize: "5vw",
+    fontSize: "4.5vw",
     textAlign: "center",
     borderRadius: "30px",
     background: 'gray',
