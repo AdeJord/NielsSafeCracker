@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();
 
-  const [auth, setAuth] = useState(false);
+  const [auth, setAuth] = useState(true);
   const passwordRef = useRef(null);
   const [password, setPassword] = useState("");
 

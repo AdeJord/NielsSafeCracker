@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import SuccessModal from "../UiElements/SuccessModal";
 import FailModal from "../UiElements/FailModal";
+import KeyPad from "./KeyPad";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,7 +32,6 @@ const NumPad = (props) => {
     setGuessedCodeState(Array(codeLength).fill(""));
   };
 
-
   const footerLeftClick = () => {
     window.location.reload();
   };
@@ -46,15 +46,12 @@ const NumPad = (props) => {
     restart();
   };
   // need to understand the below line
-  const delay = ms => new Promise(res => setTimeout(res, ms));
- // 
+  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+  //
 
- 
   const handleNumberClick = async (number) => {
-
     var setCode = props.code;
     var guessedCode = props.codeToNumber;
-
 
     if (guessedCodeState.filter((val) => val === "").length > 0) {
       // Handle the number click event
@@ -63,7 +60,6 @@ const NumPad = (props) => {
       updatedCodeState[emptyBoxIndex] = number; // Update the clicked number in the corresponding empty box
       setGuessedCodeState(updatedCodeState); // Update the state with the new array
       await delay(1500);
-
 
       if (updatedCodeState.filter((val) => val === "").length === 0) {
         const stringCode = updatedCodeState.join("");
@@ -107,131 +103,10 @@ const NumPad = (props) => {
           footerRightClick={footerRightClick}
         />
       )}
-      {showFailModal && (
-        <FailModal
-          onClick={failModalCloseHandler}
-        />
-      )}
+      {showFailModal && <FailModal onClick={failModalCloseHandler} />}
       <BoxContainer />
-      <div className={classes.root}>
-        <Grid container spacing={1}>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={() => handleNumberClick(1)}
-            >
-              1
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={() => handleNumberClick(2)}
-            >
-              2
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={() => handleNumberClick(3)}
-            >
-              3
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={() => handleNumberClick(4)}
-            >
-              4
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={() => handleNumberClick(5)}
-            >
-              5
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={() => handleNumberClick(6)}
-            >
-              6
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={() => handleNumberClick(7)}
-            >
-              7
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={() => handleNumberClick(8)}
-            >
-              8
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={() => handleNumberClick(9)}
-            >
-              9
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            {/* <Button
-              color="primary"
-              variant="contained"
-              className={classes.button}
-              disabled
-            ></Button> */}
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={() => handleNumberClick(0)}
-            >
-              0
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            {/* <Button
-              color="primary"
-              className={classes.button}
-              disabled
-            ></Button> */}
-          </Grid>
-        </Grid>
-      </div>
+      <KeyPad 
+      handleNumberClick = {handleNumberClick}/>
     </>
   );
 };
