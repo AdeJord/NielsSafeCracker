@@ -2,7 +2,6 @@ import logo from "./logo.svg";
 import "./App.css";
 import Game from "./components/Game";
 import { useState, useRef } from "react";
-import GuessCode from "./components/GuessCode";
 import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles({

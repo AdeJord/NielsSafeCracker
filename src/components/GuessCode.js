@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
+import SuccessModal from "../UiElements/SuccessModal";
+import FailModal from "../UiElements/FailModal";
+import KeyPad from "./KeyPad";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,86 +17,98 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const updateBox = () => {
-  
-}
-
 const NumPad = (props) => {
   const classes = useStyles();
-  var codeLength = props.charInCode;
-  var guessedCodeArray = [];
+  const codeLength = props.charInCode;
+  const [guessedCodeState, setGuessedCodeState] = useState(
+    Array(codeLength).fill("") // if you put something in here the numbers will not show in the box (Not and empty string)
+  );
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showFailModal, setShowFailModal] = useState(false);
 
-  const [test, setTest] = useState('tit');
-  const [inputValue, setInputValue] = useState(props.numberClicked)
 
-  const [guessedCodeState, setGuessedCodeState] = useState(guessedCodeArray);
-  const [guessedNumState, setGuessedNumState] = useState('');
-  var numberClicked = guessedNumState
+// WE NEED TO WORK HERE!!!  SET THE NEW BOXES WITH CORRECTLTY GUESSED NUMBERS (TO GREEN AND THE WRONG ONES TO RED)MAYBE??
 
-  // const handleNumberClick = (number) => {
+  const restart = () => {
 
-  //   if (guessedCodeArray.length <= codeLength){
-  //   // Handle the number click event
-  //   console.log(`Clicked number: ${number}`);
-  //   guessedCodeArray.push(number);
-  //   setGuessedNumState(guessedCodeArray)
+    //*******************************MY BIT************************************* */
 
-    
-  //   //why does this do what it does? Only log the number clicked?
-  //   // setTest(number)
-
-  //   //SET INNERTEXT OF BOX TO NUMBER?!?!!??!?!!?
-
-  //   console.log("guessedCodeArray :- " + guessedCodeArray);
-  //   console.log("guessedCodeState :- " + guessedCodeState);
-  //   console.log("number :- " + number);
-  //   console.log('END LOOP')
-  //   } else {console.log('DONE')}
-  // };
-
-  const handleNumberClick = (number) => {
-    if (guessedCodeArray.length < codeLength) {
-      console.log(`Clicked number: ${number}`);
-      const updatedCodeArray = [...guessedCodeArray, number]; // Create a new array with the updated values
-      guessedCodeArray = updatedCodeArray; // Update the reference of the local variable
-      setGuessedCodeState(updatedCodeArray); // Update the state with the new array
-      setGuessedNumState(updatedCodeArray.join('')); // Update the state with the joined string of numbers
-  
-      console.log("guessedCodeArray: " + guessedCodeArray);
-      console.log("guessedCodeState: " + guessedCodeState);
-      console.log("number: " + number);
-      console.log('END LOOP');
-  
-      if (updatedCodeArray.length === codeLength) {
-        // If all the boxes are filled, perform the necessary action
-        console.log('DONE');
+    // compare the guessed code to the code
+    const CheckCode = (props) => {
+      console.log("checkCode");
+      const guessedCode = guessedCodeState.join("");
+      const code = props.code;
+      if (guessedCode === code) {
+        console.log("correct");
+      } else {
+        console.log("incorrect");
       }
-    } else {
-      console.log('DONE');
+    };
+
+<CheckCode 
+code='123'/>;
+
+    //*******************************MY BIT************************************* */
+
+
+
+    setGuessedCodeState(Array(codeLength).fill(""));
+  };
+
+  const footerLeftClick = () => {
+    window.location.reload();
+  };
+
+  const footerRightClick = () => {
+    setShowSuccessModal(false);
+    restart();
+  };
+
+  const failModalCloseHandler = () => {
+    setShowFailModal(false);
+    restart();
+  };
+  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+  
+
+  const handleNumberClick = async (number) => {
+    var setCode = props.code;
+    var guessedCode = props.codeToNumber;
+
+
+
+
+
+
+    if (guessedCodeState.filter((val) => val === "").length > 0) { // Checks all the boxes are not filled? or filled?
+      // Handle the number click event
+      const updatedCodeState = [...guessedCodeState]; // Create a new array with the current state values
+      const emptyBoxIndex = updatedCodeState.findIndex((val) => val === ""); // finds the first empty value in the array so it can be replaced with nummber (Below)
+      updatedCodeState[emptyBoxIndex] = number; // Update the clicked number in the corresponding empty box from above
+      setGuessedCodeState(updatedCodeState); // Update the state with the new array
+      await delay(1500);
+
+      if (updatedCodeState.filter((val) => val === "").length === 0) {
+        const stringCode = updatedCodeState.join("");
+        // If all the boxes are filled, perform the necessary action
+        if (setCode === stringCode) {
+          //Checks the codes match
+          setShowSuccessModal(true);
+        } else {
+          setShowFailModal(true);
+        }
+      }
     }
   };
 
-  // from ai **************But adjusted my me**************
-  //RETURNS AS MANY BOXES AS THERE ARE CHARACTERS IN THE CODE
 
 
 
-  const BoxContainer = (number) => {
+
+
+  const BoxContainer = () => {
     const renderBoxes = () => {
       const boxes = [];
-
-      // THE PROBLEM - It is rendering the boxes empty (As it should), BUT, when a button is clicked
-      // it is saving it into the guessed CodeArray and the guessedCodeState but not rendering it
-      // in the box.
-      // THE ANSWER? i think? - It needs to update the guessedCodeState/guessedCodeArray onClick of the button
-      // (which it does) AND ALSO update the box content (Which it does NOT).
-      // ie. When Button 1 is clicked, (it already updates the array and state),
-      // BUTS IT NEEDS TO TELL someone(WHO?) That it needs to rerender with the new the contents of the
-      // box with the number of the button that has just been pressed.
-      // ie. 1.
-
-      //INNERTEXT???
-      //Set Box to a blank string, then change the innertext when button is pressed?
 
       for (let i = 0; i < codeLength; i++) {
         boxes.push(
@@ -107,136 +120,25 @@ const NumPad = (props) => {
       return boxes;
     };
 
-    //*********is (codeLength) really required? */
     const boxes = renderBoxes(codeLength);
 
     return <div className="box-container">{boxes}</div>;
   };
-  // end from ai *********************************************
 
   return (
-    // as many boxes as there is numbers in the code
     <>
+      {showSuccessModal && (
+        <SuccessModal
+          header="CONGRATULATIONS"
+          content="YOU CRACKED THE CODE!"
+          footerLeftClick={footerLeftClick}
+          footerRightClick={footerRightClick}
+        />
+      )}
+      {showFailModal && <FailModal onClick={failModalCloseHandler} />}
       <BoxContainer />
-      <div className={classes.root}>
-        <Grid container spacing={1}>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={() => handleNumberClick(1)}
-            >
-              1
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={() => handleNumberClick(2)}
-            >
-              2
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={() => handleNumberClick(3)}
-            >
-              3
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={() => handleNumberClick(4)}
-            >
-              4
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={() => handleNumberClick(5)}
-            >
-              5
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={() => handleNumberClick(6)}
-            >
-              6
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={() => handleNumberClick(7)}
-            >
-              7
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={() => handleNumberClick(8)}
-            >
-              8
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={() => handleNumberClick(9)}
-            >
-              9
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              className={classes.button}
-              disabled
-            ></Button>
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={() => handleNumberClick(0)}
-            >
-              0
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              className={classes.button}
-              disabled
-            ></Button>
-          </Grid>
-        </Grid>
-      </div>
-      <p>SUBMIT</p>
+      <KeyPad 
+      handleNumberClick = {handleNumberClick}/>
     </>
   );
 };

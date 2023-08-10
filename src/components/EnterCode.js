@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import GuessCode from "./GuessCode";
 
 const EnterCode = (props) => {
 

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import GuessCode1 from "./GuessCode1";
 import GuessCode from "./GuessCode";
 import Modal from "../UiElements/Modal";
 import "../App.css";
@@ -120,7 +119,7 @@ const Game = (props) => {
     return (
       <>
         <h1>Crack The Code</h1>
-        <GuessCode1
+        <GuessCode
           charInCode={codeLength}
           code={code}
           codeToNumber={codeToNumber}
